@@ -11,8 +11,14 @@
 
 void setup() {
 	Serial.begin(9600);
+	
+	//initialize startup pin numbers and modes
+	pinMode(RED, OUTPUT);
+	pinMode(YELLOW, OUTPUT);
+	pinMode(GREEN, OUTPUT);
+	pinMode(BLUE, OUTPUT);
   
-	//initialize default signal states
+	//initialize startup signal states
 	digitalWrite(RED, OPEN);
 	digitalWrite(YELLOW, CLOSED);
 	digitalWrite(GREEN, CLOSED);
@@ -51,6 +57,7 @@ void loop() {
  * to have problems with counting to 5 minutes worth of milliseconds,
  * this loop keeps track of the seconds, and lets the arduino count
  * off the milliseconds
+ */
 void wait(int secondsToWait){
 	// in the last iteration of the pump, a for loop seemed to have a few problems with
 	// going above 2 minutes. I'm using a while loop here and seeing if it works
