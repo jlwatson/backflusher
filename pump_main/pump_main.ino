@@ -1,7 +1,7 @@
-#define GREEN 7
-#define BLUE 6
-#define YELLOW 5
-#define RED 4
+#define GREEN 4
+#define BLUE 5
+#define YELLOW 7
+#define RED 6
 
 #define CLOSED LOW
 #define OPEN HIGH
@@ -24,7 +24,7 @@ void setup() {
 	digitalWrite(GREEN, CLOSED);
 	digitalWrite(BLUE, CLOSED);
 	
-	wait(30); 
+	wait(FLUSH_TIME); 
 }
 
 void loop() {
