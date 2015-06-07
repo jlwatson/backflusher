@@ -1,4 +1,4 @@
-#define GREEN 4
+#define GREEN 4  
 #define BLUE 5
 #define YELLOW 7
 #define RED 6
@@ -6,8 +6,8 @@
 #define CLOSED LOW
 #define OPEN HIGH
 #define PRESSURE_DELAY 10
-#define FLUSH_TIME 30
-#define REGULAR_OPERATION_TIME 300
+#define FLUSH_TIME 10
+#define REGULAR_OPERATION_TIME 270 //2:30
 
 void setup() {
 	Serial.begin(9600);
