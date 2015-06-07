@@ -49,7 +49,7 @@ void loop() {
 	digitalWrite(BLUE, OPEN);
 	wait(FLUSH_TIME); 
 
-	digitalWrite(BLUe, CLOSED);
+	digitalWrite(BLUE, CLOSED);
 	wait(REGULAR_OPERATION_TIME); 
 }
 
@@ -64,7 +64,7 @@ void wait(int secondsToWait){
 
 	int secondsElapsed = 0;
 	while(secondsElapsed < secondsToWait) {
-		delay(1000)
+		delay(1000);
 		secondsElapsed++;
 	}
 	
