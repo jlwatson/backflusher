@@ -1,4 +1,3 @@
-
 #define GREEN 7
 #define BLUE 6
 #define YELLOW 5
@@ -6,53 +5,62 @@
 
 #define CLOSED LOW
 #define OPEN HIGH
-#define SOLENOID_DELAY 2
-#define FLUSH_TIME 10
+#define PRESSURE_DELAY 10
+#define FLUSH_TIME 30
+#define REGULAR_OPERATION_TIME 300
 
 void setup() {
-  Serial.begin(9600);
+	Serial.begin(9600);
   
-  //initialize default signal states
-  digitalWrite(RED, OPEN);
-  digitalWrite(YELLOW, OPEN);
-  digitalWrite(BLUE, CLOSED);
-  digitalWrite(GREEN, CLOSED);
-  
-  pinMode(GREEN, OUTPUT);
-  pinMode(BLUE, OUTPUT);
-  pinMode(YELLOW, OUTPUT);
-  pinMode(RED, OUTPUT);
+	//initialize default signal states
+	digitalWrite(RED, OPEN);
+	digitalWrite(YELLOW, CLOSED);
+	digitalWrite(GREEN, CLOSED);
+	digitalWrite(BLUE, CLOSED);
+	
+	wait(30); 
 }
 
 void loop() {
-  flush_filter(RED);
-  flush_filter(YELLOW);
-  waitSec(300 - (6*SOLENOID_DELAY + 2*FLUSH_TIME));
+	digitalWrite(YELLOW, OPEN);
+	wait(PRESSURE_DELAY); 
+
+	digitalWrite(RED, CLOSED);
+	wait(PRESSURE_DELAY); 
+
+	digitalWrite(GREEN, OPEN);
+	wait(FLUSH_TIME); 
+
+	digitalWrite(GREEN, CLOSED);
+	wait(REGULAR_OPERATION_TIME); 
+
+	digitalWrite(RED, OPEN);
+	wait(PRESSURE_DELAY); 
+
+	digitalWrite(YELLOW, CLOSED);
+	wait(PRESSURE_DELAY); 
+
+	digitalWrite(BLUE, OPEN);
+	wait(FLUSH_TIME); 
+
+	digitalWrite(BLUe, CLOSED);
+	wait(REGULAR_OPERATION_TIME); 
 }
 
-void waitSec(int nSecs){
-  for(int i=0;i<nSecs;i++){
-    delay(1000);
-  } 
+/* Waits the specified amount of seconds. Since an arduino seems
+ * to have problems with counting to 5 minutes worth of milliseconds,
+ * this loop keeps track of the seconds, and lets the arduino count
+ * off the milliseconds
+void wait(int secondsToWait){
+	// in the last iteration of the pump, a for loop seemed to have a few problems with
+	// going above 2 minutes. I'm using a while loop here and seeing if it works
+
+	int secondsElapsed = 0;
+	while(secondsElapsed < secondsToWait) {
+		delay(1000)
+		secondsElapsed++;
+	}
+	
+	return; //done waiting
 }
 
-/** 
- Additional wait time: 3*SOLENOID_DELAY + FLUSH_TIME seconds 
- Pre/Post-conditions: BLUE, GREEN --> closed, RED, YELLOW --> open
- **/
-void flush_filter(int main_valve){
-  
-  int flush_valve = (main_valve == RED) ? GREEN : BLUE;
-  
-  digitalWrite(main_valve, CLOSED);
-  waitSec(SOLENOID_DELAY);
-  digitalWrite(flush_valve, OPEN);
-    
-  waitSec(FLUSH_TIME);
-    
-  digitalWrite(flush_valve, CLOSED);
-  waitSec(SOLENOID_DELAY);
-  digitalWrite(main_valve, OPEN);
-  
-  waitSec(SOLENOID_DELAY);
-}
